@@ -1,4 +1,7 @@
 import express from "express";
+import cors from "cors"
+import cookieParser from "cookie-parser";
+
 
 const app = express();
 
@@ -20,5 +23,11 @@ app.use(
 
 app.use(express.static("public"));
 app.use(cookieParser());
+
+// importing the rotes
+
+import userRouter from "./routes/user.router.js"
+
+app.use("/api/v1/users", userRouter)
 
 export { app };
