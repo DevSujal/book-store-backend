@@ -1,4 +1,3 @@
-import mongoose from "mongoose";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { User } from "../models/user.model.js";
@@ -153,7 +152,7 @@ const refreshAndAccessToken = asyncHandler(async (req, res) => {
   const user = await User.findById(decodedRefreshToken._id);
 
   if (!user) {
-    throw new ApiError(401, "Invalid Authorization requirest");
+    throw new ApiError(401, "Unauthorize request");
   }
 
   if (!(incomingRefreshToken === user.refreshToken)) {
@@ -171,11 +170,13 @@ const refreshAndAccessToken = asyncHandler(async (req, res) => {
 
   const loggedInUser = await User.findById(user._id).select("-password -refreshToken");
 
+
+
   res
     .status(200)
     .cookie("accessToken", accessToken, options)
     .cookie("refreshToken", refreshToken, options)
     .json(new ApiResponse(200, loggedInUser, "user logged in successfully"));
 });
-
+  
 export { registerUser, loginUser, logoutUser, refreshAndAccessToken };
