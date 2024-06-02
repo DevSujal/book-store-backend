@@ -19,8 +19,7 @@ const bookSchema = new mongoose.Schema(
       default: 0,
     },
     bookAuthor: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      type: String,
       required : true
     },
     bookDescription: {

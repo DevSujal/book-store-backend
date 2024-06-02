@@ -1,3 +1,4 @@
+import { isAdmin } from "../Admins.js";
 import { Book } from "../models/book.model.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiRespnse.js";
@@ -5,6 +6,10 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { uploadOnCloudianary } from "../utils/uploadOnCloudianary.js";
 
 const createBook = asyncHandler(async (req, res) => {
+
+  if(!isAdmin(req.user?._id)){
+    throw new ApiError(401, "Only Admins can add new books")
+  }
   const { bookname, bookPrice, bookAuthor, bookDescription, bookGenre } =
     req.body;
 
